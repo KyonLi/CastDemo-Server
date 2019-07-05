@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+
+    <link href="font_Icon/iconfont.css" rel="stylesheet" type="text/css">
+    <link href="css/chat.css" rel="stylesheet" type="text/css">
+
+    <script src="//libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+
+<div class="chatContainer">
+    <div class="chatBtn">
+        <i class="iconfont icon-xiaoxi1"></i>
+    </div>
+    <div class="chat-message-num">10</div>
+    <div class="chatBox" ref="chatBox">
+        <div class="chatBox-info">
+            <div class="chatBox-kuang" ref="chatBoxkuang">
+                <div class="chatBox-content">
+                    <div class="chatBox-content-demo" id="chatBox-content-demo"></div>
+                </div>
+                <div class="chatBox-send">
+                    <div class="div-textarea" contenteditable="true"></div>
+                    <div>
+                        <button class="btn-default-styles" id="chat-biaoqing">
+                            <i class="iconfont icon-biaoqing"></i>
+                        </button>
+                        <label class="btn-default-styles" for="inputImage" id="chat-tuxiang" title="发送图片">
+                            <input accept="image/jpg,image/jpeg,image/png" class="hidden" id="inputImage"
+                                   name="file" onchange="selectImg(this)" type="file">
+                            <i class="iconfont icon-tuxiang"></i>
+                        </label>
+                        <button class="btn-default-styles" id="chat-fasong"><i class="iconfont icon-fasong"></i>
+                        </button>
+                    </div>
+                    <div class="biaoqing-photo">
+                        <ul>
+                            <li><span class="emoji-picker-image" style="background-position: -9px -18px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -40px -18px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -71px -18px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -102px -18px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -133px -18px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -164px -18px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -9px -52px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -40px -52px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -71px -52px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -102px -52px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -133px -52px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -164px -52px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -9px -86px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -40px -86px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -71px -86px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -102px -86px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -133px -86px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -164px -86px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -9px -120px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -40px -120px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -71px -120px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -102px -120px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -133px -120px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -164px -120px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -9px -154px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -40px -154px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -71px -154px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -102px -154px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -133px -154px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -164px -154px;"></span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/chat.js"></script>
+
+</body>
+</html>

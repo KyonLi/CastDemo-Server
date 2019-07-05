@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+    <title>视频直播</title>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="msapplication-tap-highlight" content="no">
+    <link href="css/player.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div id="player">
+    <video controls webkit-playsinline playsinline autoplay preload="auto">
+        <source src="http://192.168.1.121:7002/live/1.m3u8" type="application/vnd.apple.mpegurl"/>
+    </video>
+</div>
+<iframe id="chat" src="chat.html?nickname=王大发财" frameborder="no" border="0" marginwidth="0" marginheight="0"></iframe>
+<script>
+    window.onload = function(){
+        console.log('页面加载完毕');
+        watchChangeSize();
+
+    };
+    window.onresize=function(){
+        console.log('监听变化');
+        watchChangeSize();
+    };
+
+    function watchChangeSize (){
+        //可视区的宽/高(DOM)
+        //offsetHeight（带边框）和clientHeight（不带边框）区别参考上一篇文章
+        var offsetHeight = document.documentElement.offsetHeight;
+        console.log(offsetHeight);
+        var playerHeight = document.getElementById("player").offsetHeight;
+        console.log(playerHeight);
+        document.getElementById("chat").style.height = offsetHeight - playerHeight - 5 + "px";
+    }
+</script>
+</body>
+
+</html>
