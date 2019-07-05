@@ -124,6 +124,10 @@ $(".emoji-picker-image").each(function () {
     })
 });
 
+$(".div-textarea").blur(function () {
+    window.parent.scrollTo(0, 0);
+});
+
 //      发送图片
 function selectImg(pic) {
     if (!pic.files || !pic.files[0]) {
