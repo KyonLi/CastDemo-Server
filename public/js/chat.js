@@ -1,7 +1,6 @@
 // 获取参数
 function getParams(name) {
     var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-
     var r = window.location.search.substr(1).match(reg);
     if (r != null) {
         return decodeURIComponent(r[2]);
@@ -36,20 +35,14 @@ function screenFuc() {
     }
 }
 
+function scrollToBottom() {
+    // $("#chatBox-content-demo").animate({scrollTop: $("#chatBox-content-demo")[0].scrollHeight}, 200);
+    $("#chatBox-content-demo").scrollTop($("#chatBox-content-demo")[0].scrollHeight);
+}
+
 (window.onresize = function () {
     screenFuc();
 })();
-//未读信息数量为空时
-var totalNum = $(".chat-message-num").html();
-if (totalNum == "") {
-    $(".chat-message-num").css("padding", 0);
-}
-$(".message-num").each(function () {
-    var wdNum = $(this).html();
-    if (wdNum == "") {
-        $(this).css("padding", 0);
-    }
-});
 
 
 //打开/关闭聊天框
@@ -59,35 +52,6 @@ $(".chatBtn").click(function () {
 $(".chat-close").click(function () {
     $(".chatBox").toggle(10);
 })
-//进聊天页面
-$(".chat-list-people").each(function () {
-    $(this).click(function () {
-        var n = $(this).index();
-        $(".chatBox-head-one").toggle();
-        $(".chatBox-head-two").toggle();
-        $(".chatBox-list").fadeToggle();
-        $(".chatBox-kuang").fadeToggle();
-
-        //传名字
-        $(".ChatInfoName").text($(this).children(".chat-name").children("p").eq(0).html());
-
-        //传头像
-        $(".ChatInfoHead>img").attr("src", $(this).children().eq(0).children("img").attr("src"));
-
-        //聊天框默认最底部
-        $(document).ready(function () {
-            $("#chatBox-content-demo").scrollTop($("#chatBox-content-demo")[0].scrollHeight);
-        });
-    })
-});
-
-//返回列表
-$(".chat-return").click(function () {
-    $(".chatBox-head-one").toggle(1);
-    $(".chatBox-head-two").toggle(1);
-    $(".chatBox-list").fadeToggle(1);
-    $(".chatBox-kuang").fadeToggle(1);
-});
 
 //      发送信息
 $("#chat-fasong").click(function () {
@@ -150,9 +114,7 @@ function sendText(text) {
         "<div class=\"right\"><div class=\"chat-message\">" + text + "</div>" +
         "<div class=\"chat-avatars\">" + nickName + "</div></div></div>");
     //聊天框默认最底部
-    $(document).ready(function () {
-        $("#chatBox-content-demo").scrollTop($("#chatBox-content-demo")[0].scrollHeight);
-    });
+    scrollToBottom()
 }
 
 // 发送表情
@@ -161,20 +123,16 @@ function sendBiaoqing(bq) {
         "<div class=\"right\"><div class=\"chat-message\">" + bq + "</div>" +
         "<div class=\"chat-avatars\">" + nickName + "</div></div></div>");
     //聊天框默认最底部
-    $(document).ready(function () {
-        $("#chatBox-content-demo").scrollTop($("#chatBox-content-demo")[0].scrollHeight);
-    });
+    scrollToBottom()
 }
 
 // 发送图片
 function sendPicture(images) {
     $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
-        "<div class=\"right\"><div class=\"chat-message\"><img src=" + images + "></div>" +
+        "<div class=\"right\"><div class=\"chat-message\"><img src=\"" + images + "\" onload=\"scrollToBottom()\"></div>" +
         "<div class=\"chat-avatars\">" + nickName + "</div></div></div>");
     //聊天框默认最底部
-    $(document).ready(function () {
-        $("#chatBox-content-demo").scrollTop($("#chatBox-content-demo")[0].scrollHeight);
-    });
+    scrollToBottom()
 }
 
 // 接收信息
@@ -183,9 +141,7 @@ function receiveText(msg) {
         "<div class=\"left\"><div class=\"chat-avatars\">" + msg.name + "</div>" +
         "<div class=\"chat-message\">" + msg.text + "</div></div></div>");
     //聊天框默认最底部
-    $(document).ready(function () {
-        $("#chatBox-content-demo").scrollTop($("#chatBox-content-demo")[0].scrollHeight);
-    });
+    scrollToBottom()
 }
 
 // 接收表情
@@ -194,20 +150,15 @@ function receiveBiaoqing(msg) {
         "<div class=\"left\"><div class=\"chat-avatars\">" + msg.name + "</div>" +
         "<div class=\"chat-message\">" + msg.bq + "</div></div></div>");
     //聊天框默认最底部
-    $(document).ready(function () {
-        $("#chatBox-content-demo").scrollTop($("#chatBox-content-demo")[0].scrollHeight);
-    });
+    scrollToBottom()
 }
 
 // 接收图片
 function receivePicture(msg) {
     $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
         "<div class=\"left\"><div class=\"chat-avatars\">" + msg.name + "</div>" +
-        "<div class=\"chat-message\"><img src=" + msg.image + "></div></div></div>");
-    //聊天框默认最底部
-    $(document).ready(function () {
-        $("#chatBox-content-demo").scrollTop($("#chatBox-content-demo")[0].scrollHeight);
-    });
+        "<div class=\"chat-message\"><img src=\"" + msg.image + "\" onload=\"scrollToBottom()\"></div></div></div>");
+    scrollToBottom()
 }
 
 // WebSocket相关
@@ -260,8 +211,8 @@ var websocket = {
 }
 
 // 生成演示消息
-receiveText({"name":"王德发","text":"给你看张图"});
-receivePicture({"name":"王德发","image":"img/1.png"});
+receiveText({name:"王德发",text:"给你看张图"});
+receivePicture({name:"王德发",image:"img/1.png"});
 sendText("嗯，适合做壁纸");
 // 初始化ws
 websocket.init();
