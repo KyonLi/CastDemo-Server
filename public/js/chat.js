@@ -10,6 +10,8 @@ function getParams(name) {
 
 // 用户昵称
 var nickName = getParams("nickname");
+// 房间号
+var room = getParams("room");
 
 screenFuc();
 
@@ -61,7 +63,7 @@ $("#chat-fasong").click(function () {
         //发送后清空输入框
         $(".div-textarea").html("");
 
-        websocket.sendMsg({name:nickName,text:textContent})
+        websocket.sendMsg({text:textContent})
     }
 });
 
@@ -84,7 +86,7 @@ $(".emoji-picker-image").each(function () {
         //发送后关闭表情框
         $(".biaoqing-photo").toggle();
 
-        websocket.sendMsg({name:nickName,bq:bq})
+        websocket.sendMsg({bq:bq})
     })
 });
 
@@ -102,7 +104,7 @@ function selectImg(pic) {
         var images = evt.target.result;
         sendPicture(images)
 
-        websocket.sendMsg({name:nickName,image:images})
+        websocket.sendMsg({image:images})
     };
     reader.readAsDataURL(pic.files[0]);
 
@@ -110,27 +112,36 @@ function selectImg(pic) {
 
 // 发送信息
 function sendText(text) {
+    // $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
+    //     "<div class=\"right\"><div class=\"chat-message\">" + text + "</div>" +
+    //     "<div class=\"chat-avatars\">" + nickName + "</div></div></div>");
     $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
-        "<div class=\"right\"><div class=\"chat-message\">" + text + "</div>" +
-        "<div class=\"chat-avatars\">" + nickName + "</div></div></div>");
+        "<div class=\"left\"><div class=\"chat-avatars\">" + nickName + "</div>" +
+        "<div class=\"chat-message\">" + text + "</div></div></div>");
     //聊天框默认最底部
     scrollToBottom()
 }
 
 // 发送表情
 function sendBiaoqing(bq) {
+    // $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
+    //     "<div class=\"right\"><div class=\"chat-message\">" + bq + "</div>" +
+    //     "<div class=\"chat-avatars\">" + nickName + "</div></div></div>");
     $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
-        "<div class=\"right\"><div class=\"chat-message\">" + bq + "</div>" +
-        "<div class=\"chat-avatars\">" + nickName + "</div></div></div>");
+        "<div class=\"left\"><div class=\"chat-avatars\">" + nickName + "</div>" +
+        "<div class=\"chat-message\">" + bq + "</div></div></div>");
     //聊天框默认最底部
     scrollToBottom()
 }
 
 // 发送图片
 function sendPicture(images) {
+    // $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
+    //     "<div class=\"right\"><div class=\"chat-message\"><img src=\"" + images + "\" onload=\"scrollToBottom()\"></div>" +
+    //     "<div class=\"chat-avatars\">" + nickName + "</div></div></div>");
     $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
-        "<div class=\"right\"><div class=\"chat-message\"><img src=\"" + images + "\" onload=\"scrollToBottom()\"></div>" +
-        "<div class=\"chat-avatars\">" + nickName + "</div></div></div>");
+        "<div class=\"left\"><div class=\"chat-avatars\">" + nickName + "</div>" +
+        "<div class=\"chat-message\"><img src=\"" + images + "\" onload=\"scrollToBottom()\"></div></div></div>");
     //聊天框默认最底部
     scrollToBottom()
 }
@@ -171,7 +182,7 @@ function wsURI() {
     }
     new_uri += "//" + loc.host;
     console.log(new_uri + loc.pathname);
-    new_uri += loc.pathname + "/../ws";
+    new_uri += loc.pathname + "/../ws?room=" + room;
     return new_uri;
 }
 
@@ -205,14 +216,16 @@ var websocket = {
     },
     sendMsg:function (msg) {
         if (this.ws != null) {
+            msg.name = nickName;
+            msg.room = room;
             this.ws.send(JSON.stringify(msg));
         }
     }
 }
 
 // 生成演示消息
-receiveText({name:"王德发",text:"给你看张图"});
-receivePicture({name:"王德发",image:"img/1.png"});
-sendText("嗯，适合做壁纸");
+// receiveText({name:"王德发",text:"给你看张图"});
+// receivePicture({name:"王德发",image:"img/1.png"});
+// sendText("嗯，适合做壁纸");
 // 初始化ws
 websocket.init();

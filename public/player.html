@@ -19,12 +19,10 @@
         <source src="http://192.168.1.121:7002/live/1.m3u8" type="application/vnd.apple.mpegurl"/>
     </video>
 </div>
-<iframe id="chat" src="chat.html?nickname=王大发财" frameborder="no" border="0" marginwidth="0" marginheight="0"></iframe>
+<iframe id="chat" src="chat.html?room=2&nickname=%E6%9D%8E%E9%A3%9E%E5%93%B2" frameborder="no" border="0" marginwidth="0" marginheight="0"></iframe>
 <script>
-    document.body.addEventListener('touchmove', function (e) {
-        e.preventDefault(); //阻止默认的处理方式(阻止下拉滑动的效果)
-    }, {passive: false}); //passive 参数不能省略，用来兼容ios和android
-    
+    document.getElementById("chat")
+
     window.onload = function(){
         console.log('页面加载完毕');
         watchChangeSize();
@@ -40,7 +38,7 @@
         //offsetHeight（带边框）和clientHeight（不带边框）区别参考上一篇文章
         var offsetWidth = document.documentElement.offsetWidth;
         var offsetHeight = document.documentElement.offsetHeight;
-        var playerHeight = offsetWidth / 4 * 3;
+        var playerHeight = offsetWidth / 16 * 9;
         document.getElementById("player").style.height = playerHeight + "px";
         document.getElementById("chat").style.height = offsetHeight - playerHeight + "px";
     }

@@ -22,6 +22,7 @@ type Msg struct {
 	Text      string          `json:"text,omitempty"`
 	Biaoqing  string          `json:"bq,omitempty"`
 	Image     string          `json:"image,omitempty"`
+	Room      string          `json:"room,omitempty"`
 	Sender    *websocket.Conn `json:"-"`
 }
 
@@ -37,6 +38,14 @@ var upgrader = websocket.Upgrader{
 }
 
 func handleConnections(w http.ResponseWriter, r *http.Request) {
+	vars := r.URL.Query()
+	room := vars["room"]
+	if len(room) == 0 {
+		// 没有房间号
+		log.Print("error: no room number")
+		return
+	}
+
 	// GET请求升级到websocket
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -44,7 +53,7 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// 客户端连接保存到clients
-	clients[c] = ""
+	clients[c] = room[0]
 	// 发送历史消息
 	sendAllMsg(c)
 	// 开始接收消息
@@ -74,8 +83,10 @@ func readMessage(c *websocket.Conn) {
 func handleMessages() {
 	// 从消息队列取出Msg
 	for msg := range broadcast {
+		from := msg.Room
 		for client := range clients {
-			if msg.Sender != client {
+			to := clients[client]
+			if msg.Sender != client && from == to {
 				err := client.WriteJSON(msg)
 				if err != nil {
 					log.Printf("error: %v", err)
@@ -89,8 +100,12 @@ func handleMessages() {
 
 // 发送所有历史消息
 func sendAllMsg(c *websocket.Conn) {
+	to := clients[c]
 	for _, msg := range msgHistory {
-		c.WriteJSON(msg)
+		from := msg.Room
+		if to == from {
+			c.WriteJSON(msg)
+		}
 	}
 }
 
