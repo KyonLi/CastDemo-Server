@@ -2,6 +2,7 @@ html, body {
     height: 100%;
     width: 100%;
     margin: 0;
+    background: rgb(245, 245, 245);
 }
 
 #player {
@@ -19,5 +20,6 @@ video {
 
 iframe {
     width: 100%;
-    display:block;
+    display: block;
+    padding-top: 15px;
 }

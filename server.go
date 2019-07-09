@@ -18,17 +18,18 @@ import (
 
 // 信息结构体
 type Msg struct {
-	Name      string          `json:"name,omitempty"`
-	Text      string          `json:"text,omitempty"`
-	Biaoqing  string          `json:"bq,omitempty"`
-	Image     string          `json:"image,omitempty"`
-	Room      string          `json:"room,omitempty"`
-	Sender    *websocket.Conn `json:"-"`
+	Name     string          `json:"name,omitempty"`
+	Text     string          `json:"text,omitempty"`
+	Biaoqing string          `json:"bq,omitempty"`
+	Image    string          `json:"image,omitempty"`
+	Room     string          `json:"room,omitempty"`
+	Owner    bool            `json:"owner"`
+	Sender   *websocket.Conn `json:"-"`
 }
 
-var clients = make(map[*websocket.Conn]string)     // 已连接客户端
-var msgHistory = make([]Msg, 0)                    // 消息历史
-var broadcast = make(chan Msg)                     // 待发送消息队列
+var clients = make(map[*websocket.Conn]string) // 已连接客户端
+var msgHistory = make([]Msg, 0)                // 消息历史
+var broadcast = make(chan Msg)                 // 待发送消息队列
 
 // 配置upgrader
 var upgrader = websocket.Upgrader{
@@ -109,7 +110,7 @@ func sendAllMsg(c *websocket.Conn) {
 	}
 }
 
-func closeAll()  {
+func closeAll() {
 	for c := range clients {
 		c.Close()
 	}

@@ -19,9 +19,9 @@
         <source src="http://192.168.1.121:7002/live/1.m3u8" type="application/vnd.apple.mpegurl"/>
     </video>
 </div>
-<iframe id="chat" src="chat.html?room=2&nickname=%E6%9D%8E%E9%A3%9E%E5%93%B2" frameborder="no" border="0" marginwidth="0" marginheight="0"></iframe>
+<iframe id="chat" frameborder="no" border="0" marginwidth="0" marginheight="0"></iframe>
 <script>
-    document.getElementById("chat")
+    document.getElementById("chat").src = "chat.html" + window.location.search;
 
     window.onload = function(){
         console.log('页面加载完毕');
@@ -40,7 +40,7 @@
         var offsetHeight = document.documentElement.offsetHeight;
         var playerHeight = offsetWidth / 16 * 9;
         document.getElementById("player").style.height = playerHeight + "px";
-        document.getElementById("chat").style.height = offsetHeight - playerHeight + "px";
+        document.getElementById("chat").style.height = offsetHeight - playerHeight - 15 + "px";
     }
 </script>
 </body>

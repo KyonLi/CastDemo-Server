@@ -11,7 +11,8 @@ body {
 
 /* 设置滚动条的样式 */
 ::-webkit-scrollbar {
-    width: 5px;
+    /*width: 5px;*/
+    width: 0;
 }
 
 /* 滚动槽 */
@@ -76,37 +77,33 @@ body {
     right: 20px;
 }
 
-.chatBtn {
-    width: 50px;
-    height: 50px;
-    background: #01bef0;
-    color: #fff;
-    line-height: 50px;
+.chatBox-head {
+    background: white;
+    position: fixed;
+    width: 100%;
+    height: 40px;
+    top: 0;
+    left: 0;
+    z-index: 1006;
+    border-radius: 25px 25px 0 0;
     text-align: center;
-    border-radius: 50%;
-    box-shadow: 2px 2px 2px #d4d4d4;
-    cursor: pointer;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    overflow: hidden;
+    line-height: 40px;
+    font-size: 23px;
 }
 
-.chatBtn:hover {
-    background: #01b3df;
-    box-shadow: none;
-}
-
-.chatBtn > i {
-    font-size: 25px;
+.chatBox-head .line {
+    background: #666666;
+    height: 1px;
+    margin: 0 20px;
 }
 
 .chatBox {
+    background: white;
     width: 370px;
     min-width: 320px;
     height: 570px;
     /*border-radius: 10px;*/
-    background: #f5ecff;
+    /*background: #f5ecff;*/
     position: absolute;
     bottom: 0;
     right: 70px;
@@ -151,7 +148,10 @@ body {
 
 .clearfloat {
     zoom: 1;
-    margin: 8px 8px;
+    margin: 12px 20px;
+    padding: 10px;
+    background: rgb(245, 245, 245);
+    border-radius: 12px;
 }
 
 .clearfloat .right {
@@ -165,11 +165,12 @@ body {
 }
 
 .clearfloat .chat-message {
-    /*max-width: 252px;*/
+    max-width: 100%;
     text-align: left;
     padding: 3px 3px;
     /*border-radius: 6px;*/
     word-wrap: break-word;
+    overflow-wrap: break-word;
     display: inline-block;
     position: relative;
     vertical-align: top;
@@ -214,14 +215,19 @@ body {
 /*}*/
 
 .clearfloat .chat-avatars {
-    max-width: 80px;
+    color: #666666;
+    max-width: 100%;
     display: inline-block;
     padding: 3px 3px;
     min-height: 28px;
     vertical-align: top;
     white-space: nowrap;
-    /*overflow: hidden;*/
+    overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.clearfloat .owner {
+    color: red;
 }
 
 .clearfloat .chat-avatars > img {
@@ -230,12 +236,10 @@ body {
 }
 
 .clearfloat .left .chat-avatars {
-    color: blue;
     margin-right: 4px;
 }
 
 .clearfloat .right .chat-avatars {
-    color: red;
     margin-left: 4px;
 }
 
@@ -366,7 +370,7 @@ body {
 @media all and (max-width: 768px) {
     .chatBox {
         position: fixed;
-        top: 0;
+        top: 40px;
         left: 0;
         width: 100%;
         height: 100%;

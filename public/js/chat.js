@@ -12,6 +12,8 @@ function getParams(name) {
 var nickName = getParams("nickname");
 // 房间号
 var room = getParams("room");
+// 是否为管理员
+var owner = getParams("owner") === 'true';
 
 screenFuc();
 
@@ -115,9 +117,16 @@ function sendText(text) {
     // $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
     //     "<div class=\"right\"><div class=\"chat-message\">" + text + "</div>" +
     //     "<div class=\"chat-avatars\">" + nickName + "</div></div></div>");
-    $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
-        "<div class=\"left\"><div class=\"chat-avatars\">" + nickName + "</div>" +
-        "<div class=\"chat-message\">" + text + "</div></div></div>");
+    if (owner) {
+        $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
+            "<div class=\"left\"><div class=\"chat-avatars owner\">" + nickName + "</div>" +
+            "<div class=\"chat-message\">" + text + "</div></div></div>");
+    } else {
+        $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
+            "<div class=\"left\"><div class=\"chat-avatars\">" + nickName + "</div>" +
+            "<div class=\"chat-message\">" + text + "</div></div></div>");
+    }
+
     //聊天框默认最底部
     scrollToBottom()
 }
@@ -127,9 +136,16 @@ function sendBiaoqing(bq) {
     // $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
     //     "<div class=\"right\"><div class=\"chat-message\">" + bq + "</div>" +
     //     "<div class=\"chat-avatars\">" + nickName + "</div></div></div>");
-    $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
-        "<div class=\"left\"><div class=\"chat-avatars\">" + nickName + "</div>" +
-        "<div class=\"chat-message\">" + bq + "</div></div></div>");
+    if (owner) {
+        $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
+            "<div class=\"left\"><div class=\"chat-avatars owner\">" + nickName + "</div>" +
+            "<div class=\"chat-message\">" + bq + "</div></div></div>");
+    } else {
+        $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
+            "<div class=\"left\"><div class=\"chat-avatars\">" + nickName + "</div>" +
+            "<div class=\"chat-message\">" + bq + "</div></div></div>");
+    }
+
     //聊天框默认最底部
     scrollToBottom()
 }
@@ -139,36 +155,64 @@ function sendPicture(images) {
     // $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
     //     "<div class=\"right\"><div class=\"chat-message\"><img src=\"" + images + "\" onload=\"scrollToBottom()\"></div>" +
     //     "<div class=\"chat-avatars\">" + nickName + "</div></div></div>");
-    $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
-        "<div class=\"left\"><div class=\"chat-avatars\">" + nickName + "</div>" +
-        "<div class=\"chat-message\"><img src=\"" + images + "\" onload=\"scrollToBottom()\"></div></div></div>");
+    if (owner) {
+        $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
+            "<div class=\"left\"><div class=\"chat-avatars owner\">" + nickName + "</div>" +
+            "<div class=\"chat-message\"><img src=\"" + images + "\" onload=\"scrollToBottom()\"></div></div></div>");
+    } else {
+        $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
+            "<div class=\"left\"><div class=\"chat-avatars\">" + nickName + "</div>" +
+            "<div class=\"chat-message\"><img src=\"" + images + "\" onload=\"scrollToBottom()\"></div></div></div>");
+    }
+
     //聊天框默认最底部
     scrollToBottom()
 }
 
 // 接收信息
 function receiveText(msg) {
-    $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
-        "<div class=\"left\"><div class=\"chat-avatars\">" + msg.name + "</div>" +
-        "<div class=\"chat-message\">" + msg.text + "</div></div></div>");
+    if (msg.owner) {
+        $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
+            "<div class=\"left\"><div class=\"chat-avatars owner\">" + msg.name + "</div>" +
+            "<div class=\"chat-message\">" + msg.text + "</div></div></div>");
+    } else {
+        $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
+            "<div class=\"left\"><div class=\"chat-avatars\">" + msg.name + "</div>" +
+            "<div class=\"chat-message\">" + msg.text + "</div></div></div>");
+    }
+
     //聊天框默认最底部
     scrollToBottom()
 }
 
 // 接收表情
 function receiveBiaoqing(msg) {
-    $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
-        "<div class=\"left\"><div class=\"chat-avatars\">" + msg.name + "</div>" +
-        "<div class=\"chat-message\">" + msg.bq + "</div></div></div>");
+    if (msg.owner) {
+        $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
+            "<div class=\"left\"><div class=\"chat-avatars owner\">" + msg.name + "</div>" +
+            "<div class=\"chat-message\">" + msg.bq + "</div></div></div>");
+    } else {
+        $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
+            "<div class=\"left\"><div class=\"chat-avatars\">" + msg.name + "</div>" +
+            "<div class=\"chat-message\">" + msg.bq + "</div></div></div>");
+    }
+
     //聊天框默认最底部
     scrollToBottom()
 }
 
 // 接收图片
 function receivePicture(msg) {
-    $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
-        "<div class=\"left\"><div class=\"chat-avatars\">" + msg.name + "</div>" +
-        "<div class=\"chat-message\"><img src=\"" + msg.image + "\" onload=\"scrollToBottom()\"></div></div></div>");
+    if (msg.owner) {
+        $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
+            "<div class=\"left\"><div class=\"chat-avatars owner\">" + msg.name + "</div>" +
+            "<div class=\"chat-message\"><img src=\"" + msg.image + "\" onload=\"scrollToBottom()\"></div></div></div>");
+    } else {
+        $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
+            "<div class=\"left\"><div class=\"chat-avatars\">" + msg.name + "</div>" +
+            "<div class=\"chat-message\"><img src=\"" + msg.image + "\" onload=\"scrollToBottom()\"></div></div></div>");
+    }
+
     scrollToBottom()
 }
 
@@ -218,6 +262,7 @@ var websocket = {
         if (this.ws != null) {
             msg.name = nickName;
             msg.room = room;
+            msg.owner = owner;
             this.ws.send(JSON.stringify(msg));
         }
     }
