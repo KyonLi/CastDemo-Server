@@ -7,13 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
     <title>图文直播</title>
     <link href="font_icon/iconfont.css" rel="stylesheet" type="text/css">
-    <link href="css/chat.css?v=1" rel="stylesheet" type="text/css">
+    <link href="css/text.css?v=1" rel="stylesheet" type="text/css">
     <script src="//libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
 </head>
 <body>
 
 <div class="chatContainer">
-    <div class="chatBox-head">评论<div class="line"></div></div>
+    <div class="chatBox-head">图文直播<div class="line"></div></div>
     <div class="chatBox" ref="chatBox">
         <div class="chatBox-info">
             <div class="chatBox-kuang" ref="chatBoxkuang">
@@ -26,6 +26,11 @@
                         <button class="btn-default-styles" id="chat-biaoqing">
                             <i class="iconfont icon-biaoqing"></i>
                         </button>
+                        <label class="btn-default-styles" for="inputImage" id="chat-tuxiang" title="发送图片">
+                            <input accept="image/jpg,image/jpeg,image/png" class="hidden" id="inputImage"
+                                   name="file" onchange="selectImg(this)" type="file">
+                            <i class="iconfont icon-tuxiang"></i>
+                        </label>
                         <button class="btn-default-styles" id="chat-fasong"><i class="iconfont icon-fasong"></i>
                         </button>
                     </div>
@@ -69,7 +74,7 @@
     </div>
 </div>
 
-<script src="js/chat.js"></script>
+<script src="js/text.js"></script>
 
 </body>
 </html>

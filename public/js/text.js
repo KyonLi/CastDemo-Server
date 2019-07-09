@@ -29,7 +29,7 @@ function screenFuc() {
         $(".chatBox-content").css("height", infoHeight - 46);
         $(".chatBox-content-demo").css("height", infoHeight - 46);
         $(".chatBox-kuang").css("height", totalHeight - topHeight);
-        $(".div-textarea").css("width", winWidth - 86);
+        $(".div-textarea").css("width", winWidth - 116);
     } else {
         $(".chatBox-info").css("height", 495);
         $(".chatBox-content").css("height", 448);
