@@ -14,7 +14,10 @@ var nickName = getParams("nickname");
 var room = getParams("room");
 // 是否为管理员
 var owner = getParams("owner") === 'true';
+// 是否允许评论
+var allowComment = true;
 
+refreshCommentPermission();
 screenFuc();
 
 function screenFuc() {
@@ -26,8 +29,9 @@ function screenFuc() {
         $(".chatBox-info").css("height", totalHeight - topHeight);
         var infoHeight = $(".chatBox-info").innerHeight();//聊天头部以下高度
         //中间内容高度
-        $(".chatBox-content").css("height", infoHeight - 46);
-        $(".chatBox-content-demo").css("height", infoHeight - 46);
+        var sendHeight = allowComment?46:0;
+        $(".chatBox-content").css("height", infoHeight - sendHeight);
+        $(".chatBox-content-demo").css("height", infoHeight - sendHeight);
         $(".chatBox-kuang").css("height", totalHeight - topHeight);
         $(".div-textarea").css("width", winWidth - 86);
     } else {
@@ -112,6 +116,15 @@ function selectImg(pic) {
 
 }
 
+$(".chatBox-head input").change(function () {
+    allowComment = $(".chatBox-head input").prop('checked');
+    var msg = {};
+    msg.cmd = allowComment?1:2;
+    var desc = allowComment?"已开启本次活动评论":"已关闭本次活动评论";
+    sendCmd(desc);
+    websocket.sendMsg(msg);
+});
+
 // 发送信息
 function sendText(text) {
     // $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
@@ -128,7 +141,7 @@ function sendText(text) {
     }
 
     //聊天框默认最底部
-    scrollToBottom()
+    scrollToBottom();
 }
 
 // 发送表情
@@ -147,7 +160,7 @@ function sendBiaoqing(bq) {
     }
 
     //聊天框默认最底部
-    scrollToBottom()
+    scrollToBottom();
 }
 
 // 发送图片
@@ -166,7 +179,17 @@ function sendPicture(images) {
     }
 
     //聊天框默认最底部
-    scrollToBottom()
+    scrollToBottom();
+}
+
+// 发送指令
+function sendCmd(desc) {
+
+    $(".chatBox-content-demo").append("<div class=\"clearfloat\" style=\"background: linear-gradient(to right, pink , transparent);\">" +
+        "<div class=\"left\"><div class=\"chat-avatars owner\">" + desc + "</div></div></div>");
+
+    //聊天框默认最底部
+    scrollToBottom();
 }
 
 // 接收信息
@@ -182,7 +205,7 @@ function receiveText(msg) {
     }
 
     //聊天框默认最底部
-    scrollToBottom()
+    scrollToBottom();
 }
 
 // 接收表情
@@ -198,7 +221,7 @@ function receiveBiaoqing(msg) {
     }
 
     //聊天框默认最底部
-    scrollToBottom()
+    scrollToBottom();
 }
 
 // 接收图片
@@ -213,7 +236,33 @@ function receivePicture(msg) {
             "<div class=\"chat-message\"><img src=\"" + msg.image + "\" onload=\"scrollToBottom()\"></div></div></div>");
     }
 
-    scrollToBottom()
+    scrollToBottom();
+}
+
+// 接收指令
+function receiveCmd(msg) {
+    var desc = msg.cmd === 1 ? "已开启本次活动评论" : "已关闭本次活动评论";
+    $(".chatBox-content-demo").append("<div class=\"clearfloat\" style=\"background: linear-gradient(to right, pink , transparent);\">" +
+        "<div class=\"left\"><div class=\"chat-avatars owner\">" + desc + "</div></div></div>");
+
+    scrollToBottom();
+}
+
+// 刷新是否允许评论
+function refreshCommentPermission() {
+    if (owner) {
+        $(".chatBox-head input").css('display','block');
+        $(".chatBox-head label").css('display','block');
+        $(".chatBox-head input").prop("checked",allowComment);
+    } else {
+        console.log(allowComment?"显示输入框":"隐藏输入框");
+        if (allowComment) {
+            $(".chatBox-send").css('display','block');
+        } else {
+            $(".chatBox-send").css('display','none');
+        }
+        screenFuc();
+    }
 }
 
 // WebSocket相关
@@ -242,7 +291,12 @@ var websocket = {
             var received_msg = evt.data;
             console.log(received_msg);
             msg = JSON.parse(received_msg);
-            if (msg.hasOwnProperty("text")) {
+            if (msg.hasOwnProperty("cmd")) {
+                allowComment = msg.cmd === 1;
+                refreshCommentPermission();
+                receiveCmd(msg);
+            }
+            else if (msg.hasOwnProperty("text")) {
                 receiveText(msg);
             }
             else if (msg.hasOwnProperty("bq")) {

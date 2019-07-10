@@ -18,6 +18,7 @@ import (
 
 // 信息结构体
 type Msg struct {
+	Cmd      int             `json:"cmd,omitempty"` // 1允许评论 2禁评
 	Name     string          `json:"name,omitempty"`
 	Text     string          `json:"text,omitempty"`
 	Biaoqing string          `json:"bq,omitempty"`
@@ -30,6 +31,7 @@ type Msg struct {
 var clients = make(map[*websocket.Conn]string) // 已连接客户端
 var msgHistory = make([]Msg, 0)                // 消息历史
 var broadcast = make(chan Msg)                 // 待发送消息队列
+var cmdList = make(map[string]Msg)             // 房间指令
 
 // 配置upgrader
 var upgrader = websocket.Upgrader{
@@ -76,7 +78,14 @@ func readMessage(c *websocket.Conn) {
 			break
 		}
 		msg.Sender = c
-		msgHistory = append(msgHistory, msg)
+		// 检查消息类型
+		if msg.Cmd == 0 {
+			// 普通消息
+			msgHistory = append(msgHistory, msg)
+		} else {
+			// 指令消息
+			cmdList[msg.Room] = msg
+		}
 		broadcast <- msg
 	}
 }
@@ -102,6 +111,13 @@ func handleMessages() {
 // 发送所有历史消息
 func sendAllMsg(c *websocket.Conn) {
 	to := clients[c]
+	// 发送房间指令
+	msg, ok := cmdList[to]
+	if ok {
+		c.WriteJSON(msg)
+	}
+
+	// 发送历史消息
 	for _, msg := range msgHistory {
 		from := msg.Room
 		if to == from {
