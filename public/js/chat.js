@@ -18,7 +18,7 @@ var owner = getParams("owner") === 'true';
 screenFuc();
 
 function screenFuc() {
-    var topHeight = $(".chatBox-head").innerHeight();//聊天头部高度
+    var topHeight = $(".chatBox-head").innerHeight()+$(".chatBox-head").position().top;//聊天头部高度
     //屏幕小于768px时候,布局change
     var winWidth = $(window).innerWidth();
     if (winWidth <= 768) {
