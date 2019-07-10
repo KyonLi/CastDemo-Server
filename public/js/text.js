@@ -287,7 +287,7 @@ var websocket = {
         this.ws.onmessage = function (evt) {
             var received_msg = evt.data;
             console.log(received_msg);
-            msg = JSON.parse(received_msg);
+            var msg = JSON.parse(received_msg);
             if (msg.hasOwnProperty("cmd")) {
                 allowComment = msg.cmd === 1;
                 refreshCommentPermission();
