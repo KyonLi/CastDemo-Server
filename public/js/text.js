@@ -182,7 +182,7 @@ function sendPicture(images) {
 // 发送指令
 function sendCmd(desc) {
 
-    $(".chatBox-content-demo").append("<div class=\"clearfloat\" style=\"background: linear-gradient(to right, pink , transparent);\">" +
+    $(".chatBox-content-demo").append("<div class=\"clearfloat\" style=\"background: linear-gradient(to right, pink, white);\">" +
         "<div class=\"left\"><div class=\"chat-avatars owner\">" + desc + "</div></div></div>");
 
     //聊天框默认最底部
@@ -239,7 +239,7 @@ function receivePicture(msg) {
 // 接收指令
 function receiveCmd(msg) {
     var desc = msg.cmd === 1 ? "已开启本次活动评论" : "已关闭本次活动评论";
-    $(".chatBox-content-demo").append("<div class=\"clearfloat\" style=\"background: linear-gradient(to right, pink , transparent);\">" +
+    $(".chatBox-content-demo").append("<div class=\"clearfloat\" style=\"background: linear-gradient(to right, pink, white);\">" +
         "<div class=\"left\"><div class=\"chat-avatars owner\">" + desc + "</div></div></div>");
 
     scrollToBottom();
