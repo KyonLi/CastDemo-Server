@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>双色球开奖视频</title>
+    <link rel="stylesheet" href="css/replay.css"/>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+    <script src="//libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+<p class="biaoti"></p>
+<div class="neirong"></div>
+<video controls webkit-playsinline playsinline preload="auto" class="bofangqu"></video>
+</body>
+
+<script>
+    // 获取参数
+    function getParams(name) {
+        var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+            return decodeURIComponent(r[2]);
+        }
+        return null;
+    }
+
+    var term = getParams("term");
+    var date = getParams("date");
+    var week = getParams("week");
+
+    var src;
+    switch (term) {
+        case "2019079":
+            src = "http://video2.zhcw.com/vod_storage/vol1/2019/07/09/5d2495389e15a/af41377aa24d11e9a9aba4badb2ed31b.mp4";
+            break;
+        default:
+            break;
+    }
+
+    $('.biaoti').text("第"+term+"期双色球开奖视频");
+    $('.neirong').html("<span>"+date+"</span><span>21:15 </span><span>"+week+"</span>");
+    $('.bofangqu').attr('src', src);
+</script>
+
+</html>
