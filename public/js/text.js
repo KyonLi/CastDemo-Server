@@ -192,13 +192,28 @@ function sendCmd(desc) {
 // 接收信息
 function receiveText(msg) {
     if (msg.owner) {
-        $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
-            "<div class=\"left\"><div class=\"chat-avatars owner\">" + msg.name + "</div>" +
-            "<div class=\"chat-message\">" + msg.text + "</div></div></div>");
+        if (msg.text.indexOf("回复") === 0) {
+            // 回复消息
+            $(".chatBox-content-demo").append("<div class=\"clearfloat\" style=\"background: linear-gradient(to right, pink, white);\">" +
+                "<div class=\"left\"><div class=\"chat-avatars owner\">" + msg.name + "</div>" +
+                "<div class=\"chat-message\">" + msg.text + "</div></div></div>");
+        } else {
+            // 普通消息
+            $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
+                "<div class=\"left\"><div class=\"chat-avatars owner\">" + msg.name + "</div>" +
+                "<div class=\"chat-message\">" + msg.text + "</div></div></div>");
+        }
     } else {
-        $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
-            "<div class=\"right\"><div class=\"chat-message\">" + msg.text + "</div>" +
-            "<div class=\"chat-avatars\">" + msg.name + "</div></div></div>");
+        if (owner) {
+            // 主播添加回复功能
+            $(".chatBox-content-demo").append("<div class=\"clearfloat\" onclick=\"reply('"+msg.name+"')\">" +
+                "<div class=\"right\"><div class=\"chat-message\">" + msg.text + "</div>" +
+                "<div class=\"chat-avatars\">" + msg.name + "</div></div></div>");
+        } else {
+            $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
+                "<div class=\"right\"><div class=\"chat-message\">" + msg.text + "</div>" +
+                "<div class=\"chat-avatars\">" + msg.name + "</div></div></div>");
+        }
     }
 
     //聊天框默认最底部
@@ -262,6 +277,11 @@ function refreshCommentPermission() {
     }
 }
 
+// 回复
+function reply(nickname) {
+    $(".div-textarea").html("回复"+nickname+"：");
+}
+
 // WebSocket相关
 function wsURI() {
     var loc = window.location, new_uri;
@@ -289,9 +309,12 @@ var websocket = {
             console.log(received_msg);
             var msg = JSON.parse(received_msg);
             if (msg.hasOwnProperty("cmd")) {
-                allowComment = msg.cmd === 1;
-                refreshCommentPermission();
-                receiveCmd(msg);
+                var newPermission = msg.cmd === 1;
+                if (newPermission !== allowComment) {
+                    allowComment = newPermission;
+                    refreshCommentPermission();
+                    receiveCmd(msg);
+                }
             }
             else if (msg.hasOwnProperty("text")) {
                 receiveText(msg);
