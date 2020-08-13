@@ -18,32 +18,12 @@
 <body>
 <div id="player">
     <video id="video" controls webkit-playsinline playsinline preload="auto">
-        <source src="http://tc.shencai.net.cn:7002/live/1.m3u8" type="application/vnd.apple.mpegurl"/>
+        <source src="http://tc-dev.aimdata.cn:7002/live/1.m3u8" type="application/vnd.apple.mpegurl"/>
     </video>
 </div>
 <iframe id="chat" frameborder="no" border="0" marginwidth="0" marginheight="0"></iframe>
 <script>
     document.getElementById("chat").src = "chat.html" + window.location.search;
-
-    window.onload = function () {
-        console.log('页面加载完毕');
-        watchChangeSize();
-
-    };
-    window.onresize = function () {
-        console.log('监听变化');
-        watchChangeSize();
-    };
-
-    function watchChangeSize() {
-        //可视区的宽/高(DOM)
-        //offsetHeight（带边框）和clientHeight（不带边框）区别参考上一篇文章
-        var offsetWidth = document.documentElement.offsetWidth;
-        var offsetHeight = document.documentElement.offsetHeight;
-        var playerHeight = offsetWidth / 16 * 9;
-        document.getElementById("player").style.height = playerHeight + "px";
-        document.getElementById("chat").style.height = offsetHeight - playerHeight + "px";
-    }
 
     $('video source').on('error', function () {
         console.log("重连");
