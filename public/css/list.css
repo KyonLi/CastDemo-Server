@@ -10,22 +10,23 @@ html, body {
 
 .box {
     width: 100%;
-    height: 100%;
+    /*height: 100%;*/
     margin: 0;
-    padding: 0;
+    padding: 50px 0;
     background-image: url(../img/z1.png);
     background-repeat: no-repeat;
     background-size: 100% 100%;
+    box-sizing: border-box;
 }
 
 .box1 {
     width: 90%;
+    height: 254px;
     padding-bottom: 40px;
     background: #FFFFFF;
     border-radius: 20px;
     margin-left: 5%;
-    margin-top: 80px;
-
+    margin-top: 30px;
     box-shadow: 0 7px 10px #f0f1f8;
 }
 
